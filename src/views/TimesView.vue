@@ -13,13 +13,10 @@ export default {
   },
   methods: {
     async salvar() {
-      const categoria = {
+      const time = {
         nome: this.novo_time,
       };
-      const time_criado = await axios.post(
-        "http://localhost:4000/times",
-        categoria
-      );
+      const time_criado = await axios.post("http://localhost:4000/times", time);
       this.times.push(time_criado.data);
     },
     async excluir(time) {
@@ -34,11 +31,16 @@ export default {
 <template>
   <div class="container">
     <div class="title">
-      <h2>Gerenciamento de times</h2>
+      <h2>Gerenciamento de Times</h2>
     </div>
     <div class="form-input">
-      <input type="text" v-model="novo_time" @keydown.enter="salvar" />
-      <button @click="salvar">salvar</button>
+      <input
+        type="text"
+        placeholder="jogador"
+        v-model="novo_time"
+        @keydown.enter="salvar"
+      />
+      <button @click="salvar">Salvar</button>
     </div>
     <div class="list-times">
       <table>
@@ -55,7 +57,7 @@ export default {
             <td>{{ time.nome }}</td>
             <td>
               <button>Editar</button>
-              <button @click="excluir(time)">excluir</button>
+              <button @click="excluir(time)">Excluir</button>
             </td>
           </tr>
         </tbody>

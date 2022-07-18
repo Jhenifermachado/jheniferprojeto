@@ -15,70 +15,78 @@ export default {
   },
   methods: {
     async buscarTodosOsJogadores() {
-      const jogadores = await axios.get(
-        "http://localhost:4000/jogadores?expand=time"
-      );
+      const jogadores = await axios.get("//localhost:4000/jogadores");
       this.jogadores = jogadores.data;
     },
     async salvar() {
       await axios.post("http://localhost:4000/jogadores", this.jogador);
       await this.buscarTodosOsJogadores();
     },
+    async excluir(jogador) {
+      await axios.delete(`http://localhost:4000/jogadores/${jogador.id}`);
+      const indice = this.jogadores.indexOf(jogador);
+      this.jogadores.splice(indice, 1);
+    },
   },
 };
 </script>
 
 <template>
-  <div class="container">
-    <div class="title">
-      <h2>Gerenciamento de jogadores</h2>
-    </div>
-    <div class="form-input">
-      <input type="text" placeholder="Jogador" v-model="jogador.nome" />
-      <input
-        type="text"
-        placeholder="Ano nascimento"
-        v-model="jogador.anoNascimento"
-      />
-      <input
-        type="text"
-        placeholder="Posicao de Jogo"
-        v-model="jogador.posicaoJogo"
-      />
-      <select v-model="jogador.timeId">
-        <option v-for="time in times" :key="time.id" :value="time.id">
-          {{ time.nome }}
-        </option>
-      </select>
-      <button @click="salvar">Salvar</button>
-    </div>
-    <div class="list-times">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Ano Nascimento</th>
-            <th>Posição de Jogo</th>
-            <th>Time</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="jogador in jogadores" :key="jogador.id">
-            <td>{{ jogador.id }}</td>
-            <td>{{ jogador.nome }}</td>
-            <td>{{ jogador.anoNascimento }}</td>
-            <td>{{ jogador.posicaoJogo }}</td>
-            <td>{{ jogador.time.nome }}</td>
-            <td>???</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</template>
+  <main>
+    <div class="container">
+      <div class="title">
+        <h2>Gerenciamento de times</h2>
+      </div>
+      <div class="form-input">
+        <input type="text" placeholder="jogador" v-model="jogador.nome" />
+        <input
+          type="text"
+          placeholder="ano de nascimento"
+          v-model="jogador.anoNascimento"
+        />
+        <input
+          type="text"
+          placeholder="posição"
+          v-model="jogador.posicaoJogo"
+        />
+        <select v-model="jogador.timeId">
+          <option v-for="time in times" :key="time.id" :value="time.id">
+            {{ time.nome }}
+          </option>
+        </select>
+        <button @click="salvar">Salvar</button>
+      </div>
+      <div class="list-times">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Ano Nascimento</th>
+              <th>Posição de jogador</th>
+              <th>Time</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
 
+          <tbody>
+            <tr v-for="jogador in jogadores" :key="jogador.id">
+              <td>{{ jogador.id }}</td>
+              <td>{{ jogador.nome }}</td>
+              <td>{{ jogador.anoNascimento }}</td>
+              <td>{{ jogador.posicaoJogo }}</td>
+              <td>{{ jogador.timeId }}</td>
+              <td>
+                <button>Editar</button>
+                <button @click="excluir(jogador)">Excluir</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</template>
 <style>
 .title {
   text-align: center;
