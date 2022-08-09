@@ -110,12 +110,12 @@ table {
 }
 
 table thead {
-  background-color: rgb(255, 105, 180);
+  background-color: rgb(230, 0, 115);
   color: whitesmoke;
   font-size: bold;
 }
 table thead th {
-  background-color: rgb(255, 105, 180);
+  background-color: rgb(201, 0, 100);
   color: whitesmoke;
 }
 
